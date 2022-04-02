@@ -5,7 +5,6 @@ pipeline {
            steps {
                 echo 'Starting build'
                 sh '''
-                    cd python-web-app-test-cases
                     sudo yum -y install python3
                     pip3 install --upgrade pip
                     pip3 install pipenv
