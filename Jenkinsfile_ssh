@@ -5,7 +5,7 @@ pipeline {
            steps {
                 echo 'Starting build'
                 sh '''
-                    sudo yum -y install python3
+                    sudo apt -y install python3
                     pip3 install --upgrade pip
                     pip3 install pipenv
                     pipenv shell
