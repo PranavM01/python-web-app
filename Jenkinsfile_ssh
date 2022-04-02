@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
            steps {
                 echo 'Starting build'
-                sh ```
+                sh '''
                     cd python-web-app-test-cases
                     sudo yum -y install python3
                     pip3 install --upgrade pip
@@ -13,16 +13,16 @@ pipeline {
 
                     pipenv install flask==2.0.3
                     pipenv install pytest==7.1.1 --dev
-                ```
+                '''
             }
         }
         stage('Test') {
             steps {
                 echo 'Starting test'
-                ```sh
+                sh '''
                 pipenv shell
                 python src
-                ```
+                '''
             }
         }
         stage('Deploy') {
