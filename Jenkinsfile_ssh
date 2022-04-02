@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+           steps {
+                echo 'Starting build'
+                sh ```
+                cd python-web-app-test-cases
+                sudo yum -y install python3
+                pip3 install --upgrade pip
+                pip3 install pipenv
+                pipenv shell
+
+                pipenv install flask==2.0.3
+                pipenv install pytest==7.1.1 --dev
+                ```
+
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Starting test'
+                ```sh
+                pipenv shell
+                python src
+                ```
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Starting deploy to the app server'
+                echo "Stopping any current running app"
+                sh "nohup kill \$(ps -ef | grep /src/app.py | grep -v grep | awk '{print \$2}') &"
+                echo 'Starting deployment'
+                sh "JENKINS_NODE_COOKIE=dontKillMe nohup python3 src/app.py &"
+            }
+        }
+        stage('Release') {
+            steps {
+                echo 'Starting Release'
+            }
+        }
+    }
+}
