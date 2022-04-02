@@ -9,7 +9,7 @@ pipeline {
                     sudo apt -y install python3-pip
                     pip3 install --upgrade pip
                     pip3 install pipenv
-                    . .profile
+                    . $HOME/.profile
                     pipenv shell
 
                     pipenv install flask==2.0.3
