@@ -27,6 +27,7 @@ pipeline {
             steps {
                 echo 'Starting lint'
                 sh '''
+                . venv/bin/activate
                 pylint --output-format=parseable --fail-under=95 app/tests --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee pylint.log || echo "pylint exited with $?"
                 '''
                 echo "linting Success, Generating Report"
