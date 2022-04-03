@@ -1,3 +1,6 @@
+def app_server = "172.31.39.182"
+def app_user = "ubuntu"
+
 pipeline {
     agent any 
     stages {
@@ -40,7 +43,8 @@ pipeline {
                 echo 'Starting deploy to the app server'
                 sh '''
                 . venv/bin/activate
-                ssh 13.126.25.62 echo "hello" > /tmp/test.txt
+                install -d -m 0755 -o ${app_user} -g ${app_user} /home/ubuntu/webapp
+                #ssh ${app_server} "sudo mkdir -p /home/ubuntu/webapp"
                 '''
                 echo "Deployment Success"
             }
