@@ -7,4 +7,4 @@ virtualenv -p /usr/bin/python3.9 venv
 . venv/bin/activate
 pip3 install -r requirements.txt
 kill $(ps -ef | grep /app/app.py | grep -v grep | awk '{print $2}') || true
-nohup python3 app/app.py &
+nohup python3 app/app.py > log.txt 2>&1 &
