@@ -44,8 +44,9 @@ pipeline {
                 echo 'Starting deploy to the app server'
                 sh '''
                 . venv/bin/activate
+                
                 ssh ${app_server} "sudo mkdir -p /home/${app_user}/webapp"
-                ssh ${app_server} "sudo install -d -m 0755 -o ${app_user} -g ${app_user} /home/${app_user}/webapp"
+                ssh ${app_server} "sudo install -d -m 0777 -o ${app_user} -g ${app_user} /home/${app_user}/webapp"
                 scp  -pr ./ ${app_server}:/home/${app_user}/webapp/
                 '''
                 echo "Deployment Success"
