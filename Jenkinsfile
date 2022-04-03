@@ -1,9 +1,9 @@
 pipeline {
     environment {
-     app_server = "172.31.39.182"
-     app_user = "ubuntu"
+     dev_app_server = "172.31.39.182"
+     devapp_user = "ubuntu"
    }
-    agent any 
+    agent any
     stages {
         stage('Building') {
            steps {
@@ -50,7 +50,6 @@ pipeline {
                 ssh ${app_user}@${app_server} "install -d -m 0755 -o ${app_user} -g ${app_user} /home/${app_user}/webapp"
                 rm -rf venv
                 scp -pr /var/lib/jenkins/workspace/Pipe1/*  ${app_user}@${app_server}:/home/${app_user}/webapp/
-                ssh  ${app_user}@${app_server} "env"
                 ssh  ${app_user}@${app_server} "cd /home/${app_user}/webapp/; . /home/${app_user}/.bashrc; . ./deploy.sh"
                 '''
                 echo "Deployment Success"
