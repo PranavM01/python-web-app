@@ -20,25 +20,27 @@ pipeline {
                 echo 'Building Success'
             }
         }
-        stage('Linting') {
+        stage('Linting and Testing') {
             steps {
-                echo 'Starting lint'
-                sh '''
-                . venv/bin/activate
-                pylint --output-format=parseable --fail-under=95 app/app.py --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee pylint.log || echo "pylint exited with $?"
-                '''
-                echo "Linting Success"
-            }
-        }
-        stage('Testing') {
-            steps {
-                echo 'Starting test'
-                sh '''
-                . venv/bin/activate
-                pytest --cov=tests --cov-report term -vs
-                '''
-                echo "Testing Success"
-            }
+                parallel(
+                    a: {
+                        echo 'Starting lint'
+                        sh '''
+                        . venv/bin/activate
+                        pylint --output-format=parseable --fail-under=95 app/app.py --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee pylint.log || echo "pylint exited with $?"
+                        '''
+                        echo "Linting Success"
+                    },
+                    b: {
+                        echo 'Starting test'
+                        sh '''
+                        . venv/bin/activate
+                        pytest --cov=tests --cov-report term -vs
+                        '''
+                        echo "Testing Success"
+                    }
+                )
+                }
         }
         stage('Deploy') {
             steps {
