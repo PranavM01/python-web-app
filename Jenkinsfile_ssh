@@ -12,6 +12,7 @@ pipeline {
                     . venv/bin/activate
                     pip3 install -r requirements.txt
                 '''
+                echo 'Building Success'
             }
         }
         stage('Testing') {
@@ -21,6 +22,7 @@ pipeline {
                 . venv/bin/activate
                 pytest --cov=tests --cov-report term -vs
                 '''
+                echo "Testing Success"
             }
         }
         stage('Linting') {
@@ -30,17 +32,17 @@ pipeline {
                 . venv/bin/activate
                 pylint --output-format=parseable --fail-under=95 app/app.py --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee pylint.log || echo "pylint exited with $?"
                 '''
-                echo "linting Success, Generating Report"
-                recordIssues enabledForFailure: true, aggregatingResults: true, tool: pyLint(pattern: 'pylint.log')
+                echo "Linting Success"
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Starting deploy to the app server'
-                echo "Stopping any current running app"
-                sh "nohup kill \$(ps -ef | grep /app/app.py | grep -v grep | awk '{print \$2}') &"
-                echo 'Starting deployment'
-                sh "JENKINS_NODE_COOKIE=dontKillMe nohup python3 app/app.py &"
+                sh '''
+                . venv/bin/activate
+                ssh 13.126.25.62 echo "hello" > /tmp/test/txt
+                '''
+                echo "Deployment Success"
             }
         }
         stage('Release') {
