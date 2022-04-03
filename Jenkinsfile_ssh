@@ -45,7 +45,7 @@ pipeline {
                 sh '''
                 . venv/bin/activate
                 ssh ${app_server} "sudo mkdir -p /home/ubuntu/webapp"
-                ssh ${app_server} "install -d -m 0755 -o ${app_user} -g ${app_user} /home/ubuntu/webapp"
+                ssh ${app_server} "sudo install -d -m 0755 -o ${app_user} -g ${app_user} /home/ubuntu/webapp"
                 
                 '''
                 echo "Deployment Success"
