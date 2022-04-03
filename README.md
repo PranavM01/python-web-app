@@ -21,18 +21,16 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-### run test cases
+### Run test cases
 ```sh
 pipenv shell
-pytest -c pytest.init src
+pytest --cov=tests --cov-report term -vs
 
 ```
 
-## 
+### Start the app
 ```sh
-python3 src/app.py 
-curl http://127.0.0.1:5000/ 
-export PYTHONPATH=src
-pytest
+python3 app/app.py 
+curl http://127.0.0.1:5000/
 ```
 
