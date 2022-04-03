@@ -5,13 +5,12 @@ pipeline {
            steps {
                 echo 'Starting build'
                 sh '''
-                    sudo apt -y install python3
-                    sudo apt -y install python3-pip
+                    sudo apt -y install python3.9
                     pip3 install --upgrade pip
-                    pip3 install pipenv
-                    . $HOME/.profile
-                    #pipenv shell
-                    pipenv install --ignore-pipfile
+                    pip3 install virtualenv
+                    virtualenv -p /usr/bin/python3.9 venv
+                    source venv/bin/activate
+                    pip3 install -r requirements.txt
                 '''
             }
         }
@@ -19,8 +18,8 @@ pipeline {
             steps {
                 echo 'Starting test'
                 sh '''
-                pipenv shell
-                python src
+                virtualenv -p /usr/bin/python3.9 venv
+                pytest src
                 '''
             }
         }

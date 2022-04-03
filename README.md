@@ -15,16 +15,10 @@ https://pypi.org/project/pipenv/
 ```sh
 sudo apt -y install python3.9
 pip3 install --upgrade pip
-pip3 install pipenv
-pipenv shell
-
-pipenv install -r requirements.txt
-
-#after local testing, lock the env
-pipenv lock
-
-#on dev/test/prod env, run this to use the locked env
-pipenv install --ignore-pipfile
+pip3 install virtualenv
+virtualenv -p /usr/bin/python3.9 venv
+source venv/bin/activate
+pip3 install -r requirements.txt
 ```
 
 ### run test cases
