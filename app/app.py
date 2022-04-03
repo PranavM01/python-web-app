@@ -1,3 +1,4 @@
+"""This module is a test module"""
 from flask import Flask
 
 app = Flask(__name__)
