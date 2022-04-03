@@ -44,10 +44,10 @@ pipeline {
                 echo 'Starting deploy to the app server'
                 sh '''
                 . venv/bin/activate
-                sudo su - ${app_user}
+                #sudo su - ${app_user}
                 ssh  ${app_user}@${app_server} "mkdir -p /home/${app_user}/webapp"
-                ssh ${app_server} "install -d -m 0777 -o ${app_user} -g ${app_user} /home/${app_user}/webapp"
-                scp -pr /var/lib/jenkins/workspace/Pipe1/* ${app_server}:/home/${app_user}/webapp/
+                ssh ${app_user}@${app_server} "install -d -m 0777 -o ${app_user} -g ${app_user} /home/${app_user}/webapp"
+                scp -pr /var/lib/jenkins/workspace/Pipe1/*  ${app_user}@${app_server}:/home/${app_user}/webapp/
                 '''
                 echo "Deployment Success"
             }
