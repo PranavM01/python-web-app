@@ -50,6 +50,7 @@ pipeline {
                 ssh ${app_user}@${app_server} "install -d -m 0755 -o ${app_user} -g ${app_user} /home/${app_user}/webapp"
                 rm -rf venv
                 scp -pr /var/lib/jenkins/workspace/Pipe1/*  ${app_user}@${app_server}:/home/${app_user}/webapp/
+                ssh  ${app_user}@${app_server} "env"
                 ssh  ${app_user}@${app_server} ". /home/${app_user}/webapp/deploy.sh"
                 '''
                 echo "Deployment Success"
