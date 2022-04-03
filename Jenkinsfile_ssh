@@ -19,7 +19,7 @@ pipeline {
                 echo 'Starting test'
                 sh '''
                 . venv/bin/activate
-                pytest app
+                pytest --cov=tests --cov-report term -vs
                 '''
             }
         }
