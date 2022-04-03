@@ -24,7 +24,7 @@ pip3 install -r requirements.txt
 ### run test cases
 ```sh
 pipenv shell
-pytest src
+pytest -c pytest.init src
 
 ```
 
