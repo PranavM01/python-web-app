@@ -1,7 +1,8 @@
-def app_server = "172.31.39.182"
-def app_user = "ubuntu"
-
 pipeline {
+    environment {
+     app_server = "172.31.39.182"
+     app_user = "ubuntu"
+   }
     agent any 
     stages {
         stage('Building') {
@@ -18,16 +19,6 @@ pipeline {
                 echo 'Building Success'
             }
         }
-        stage('Testing') {
-            steps {
-                echo 'Starting test'
-                sh '''
-                . venv/bin/activate
-                pytest --cov=tests --cov-report term -vs
-                '''
-                echo "Testing Success"
-            }
-        }
         stage('Linting') {
             steps {
                 echo 'Starting lint'
@@ -38,12 +29,22 @@ pipeline {
                 echo "Linting Success"
             }
         }
+        stage('Testing') {
+            steps {
+                echo 'Starting test'
+                sh '''
+                . venv/bin/activate
+                pytest --cov=tests --cov-report term -vs
+                '''
+                echo "Testing Success"
+            }
+        }
         stage('Deploy') {
             steps {
                 echo 'Starting deploy to the app server'
                 sh '''
                 . venv/bin/activate
-                install -d -m 0755 -o ${app_user} -g ${app_user} /home/ubuntu/webapp
+                ssh ${app_server} "install -d -m 0755 -o ${app_user} -g ${app_user} /home/ubuntu/webapp"
                 #ssh ${app_server} "sudo mkdir -p /home/ubuntu/webapp"
                 '''
                 echo "Deployment Success"
