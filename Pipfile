@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 pytest = "==7.1.1"
 Flask = "==2.0.3"
+coverage = "6.3.2"
 
 [dev-packages]
 pytest = "==7.1.1"

@@ -11,9 +11,7 @@ pipeline {
                     pip3 install pipenv
                     . $HOME/.profile
                     pipenv shell
-
-                    pipenv install flask==2.0.3
-                    pipenv install pytest==7.1.1 --dev
+                    pipenv install --ignore-pipfile
                 '''
             }
         }

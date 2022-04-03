@@ -13,25 +13,26 @@ https://pypi.org/project/pipenv/
 
 ## Setup virtual env and install requirements
 ```sh
-sudo yum -y install python3
+sudo apt -y install python3.9
 pip3 install --upgrade pip
 pip3 install pipenv
 pipenv shell
 
 pipenv install flask==2.0.3
 pipenv install pytest==7.1.1 --dev
+pipenv install coverage --dev
 
 #after local testing, lock the env
 pipenv lock
 
-#on prod env, run this to use the locked env
+#on dev/test/prod env, run this to use the locked env
 pipenv install --ignore-pipfile
 ```
 
 ### run test cases
 ```sh
 pipenv shell
-python src
+pytest src
 
 ```
 
