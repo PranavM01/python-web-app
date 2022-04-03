@@ -21,11 +21,6 @@ pipeline {
                 . venv/bin/activate
                 pytest --cov=tests --cov-report term -vs
                 '''
-                script {
-                if (currentBuild.result == 'FAILURE') {
-                    error("Test coverage is too low.")
-                }
-            }
             }
         }
         stage('Deploy') {
