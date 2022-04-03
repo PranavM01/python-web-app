@@ -18,9 +18,7 @@ pip3 install --upgrade pip
 pip3 install pipenv
 pipenv shell
 
-pipenv install flask==2.0.3
-pipenv install pytest==7.1.1 --dev
-pipenv install coverage --dev
+pipenv install -r requirements.txt
 
 #after local testing, lock the env
 pipenv lock

@@ -10,7 +10,7 @@ pipeline {
                     pip3 install --upgrade pip
                     pip3 install pipenv
                     . $HOME/.profile
-                    pipenv shell
+                    #pipenv shell
                     pipenv install --ignore-pipfile
                 '''
             }
