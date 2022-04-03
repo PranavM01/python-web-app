@@ -40,7 +40,7 @@ pipeline {
                 echo 'Starting deploy to the app server'
                 sh '''
                 . venv/bin/activate
-                ssh 13.126.25.62 echo "hello" > /tmp/test/txt
+                ssh 13.126.25.62 echo "hello" > /tmp/test.txt
                 '''
                 echo "Deployment Success"
             }
