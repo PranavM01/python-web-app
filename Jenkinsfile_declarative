@@ -1,7 +1,10 @@
+# This pipeline deploys the flask on a third app server as an 'jenkins' account.
+# So, you should set up password-less ssh for 'jenkins' account of Jenkins server to 'ubuntu' account on the app server.
+
 pipeline {
     environment {
      dev_app_server = "172.31.39.182"
-     devapp_user = "ubuntu"
+     dev_app_user = "ubuntu"
    }
     agent any
     stages {
@@ -47,12 +50,12 @@ pipeline {
                 echo 'Starting deploy to the app server'
                 sh '''
                 . venv/bin/activate
-                #sudo su - ${app_user}
-                ssh  ${app_user}@${app_server} "mkdir -p /home/${app_user}/webapp"
-                ssh ${app_user}@${app_server} "install -d -m 0755 -o ${app_user} -g ${app_user} /home/${app_user}/webapp"
+                #sudo su - ${dev_app_user}
+                ssh  ${dev_app_user}@${dev_app_server} "mkdir -p /home/${dev_app_user}/webapp"
+                ssh ${dev_app_user}@${dev_app_server} "install -d -m 0755 -o ${dev_app_user} -g ${dev_app_user} /home/${dev_app_user}/webapp"
                 rm -rf venv
-                scp -pr /var/lib/jenkins/workspace/Pipe1/*  ${app_user}@${app_server}:/home/${app_user}/webapp/
-                ssh  ${app_user}@${app_server} "cd /home/${app_user}/webapp/; . /home/${app_user}/.bashrc; . ./deploy.sh"
+                scp -pr /var/lib/jenkins/workspace/Pipe1/*  ${dev_app_user}@${dev_app_server}:/home/${dev_app_user}/webapp/
+                ssh  ${dev_app_user}@${dev_app_server} "cd /home/${dev_app_user}/webapp/; . /home/${dev_app_user}/.bashrc; . ./deploy.sh"
                 '''
                 echo "Deployment Success"
             }
