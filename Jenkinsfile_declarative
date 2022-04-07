@@ -1,11 +1,10 @@
 // This pipeline deploys the flask on a third app server as an 'jenkins' account.
 // So, you should set up password-less ssh for 'jenkins' account of Jenkins server to 'ubuntu' account on the app server.
-// TO help jenkins get the path right -> Go to the configuration page of your slave, and add environment variable PATH, 
-// with value: $PATH:$HOME/.local/bin
+// TO help jenkins get the path right -> add PATH="$HOME/.local/bin:$PATH" at end of the file /etc/profile and restart the jenkins.
 
 pipeline {
     environment {
-     dev_app_server = "172.31.39.182"
+     dev_app_server = "192.168.0.112"
      dev_app_user = "ubuntu"
    }
     agent any
