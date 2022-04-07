@@ -55,7 +55,7 @@ pipeline {
                 ssh  ${dev_app_user}@${dev_app_server} "mkdir -p /home/${dev_app_user}/webapp"
                 ssh ${dev_app_user}@${dev_app_server} "install -d -m 0755 -o ${dev_app_user} -g ${dev_app_user} /home/${dev_app_user}/webapp"
                 rm -rf venv
-                scp -pr /var/lib/jenkins/workspace/Pipe1/*  ${dev_app_user}@${dev_app_server}:/home/${dev_app_user}/webapp/
+                scp -pr pwd()/*  ${dev_app_user}@${dev_app_server}:/home/${dev_app_user}/webapp/
                 ssh  ${dev_app_user}@${dev_app_server} "cd /home/${dev_app_user}/webapp/; . /home/${dev_app_user}/.bashrc; . ./deploy.sh"
                 '''
                 echo "Deployment Success"
