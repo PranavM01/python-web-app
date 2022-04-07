@@ -9,8 +9,7 @@ node {
     }
     timestamps {
         ansiColor("xterm") {
-            stages {
-                stage('Building') {
+            stage('Building') {
                 steps {
                         echo 'Starting build'
                         ansiColor('css') {
@@ -26,46 +25,45 @@ node {
                             echo 'Building Success'
                         }
                     }
-                }
-                stage('Linting and Testing') {
-                    steps {
-                        parallel(
-                            a: {
-                                echo 'Starting lint'
-                                sh '''
-                                . venv/bin/activate
-                                pylint --output-format=parseable --fail-under=95 app/app.py --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee pylint.log || echo "pylint exited with $?"
-                                '''
-                                echo "Linting Success"
-                            },
-                            b: {
-                                echo 'Starting test'
-                                sh '''
-                                . venv/bin/activate
-                                pytest --cov=tests --cov-report term -vs
-                                '''
-                                echo "Testing Success"
-                            }
-                        )
+            }
+            stage('Linting and Testing') {
+                steps {
+                    parallel(
+                        a: {
+                            echo 'Starting lint'
+                            sh '''
+                            . venv/bin/activate
+                            pylint --output-format=parseable --fail-under=95 app/app.py --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee pylint.log || echo "pylint exited with $?"
+                            '''
+                            echo "Linting Success"
+                        },
+                        b: {
+                            echo 'Starting test'
+                            sh '''
+                            . venv/bin/activate
+                            pytest --cov=tests --cov-report term -vs
+                            '''
+                            echo "Testing Success"
                         }
-                }
-                stage('Deploy') {
-                    steps {
-                        echo 'Starting deploy to the app server'
-                        sh '''
-                        . venv/bin/activate
-                        #sudo su - ${dev_app_user}
-                        ssh  ${dev_app_user}@${dev_app_server} "mkdir -p /home/${dev_app_user}/webapp"
-                        #ssh ${dev_app_user}@${dev_app_server} "install -d -m 0755 -o ${dev_app_user} -g ${dev_app_user} /home/${dev_app_user}/webapp"
-                        rm -rf venv
-                        echo "Env is"
-                        echo "${WORKSPACE}"
-                        echo "Env done"
-                        scp -pr "${WORKSPACE}"/*  ${dev_app_user}@${dev_app_server}:/home/${dev_app_user}/webapp/
-                        ssh  ${dev_app_user}@${dev_app_server} "cd /home/${dev_app_user}/webapp/; . /home/${dev_app_user}/.bashrc; . ./deploy.sh"
-                        '''
-                        echo "Deployment Success"
+                    )
                     }
+            }
+            stage('Deploy') {
+                steps {
+                    echo 'Starting deploy to the app server'
+                    sh '''
+                    . venv/bin/activate
+                    #sudo su - ${dev_app_user}
+                    ssh  ${dev_app_user}@${dev_app_server} "mkdir -p /home/${dev_app_user}/webapp"
+                    #ssh ${dev_app_user}@${dev_app_server} "install -d -m 0755 -o ${dev_app_user} -g ${dev_app_user} /home/${dev_app_user}/webapp"
+                    rm -rf venv
+                    echo "Env is"
+                    echo "${WORKSPACE}"
+                    echo "Env done"
+                    scp -pr "${WORKSPACE}"/*  ${dev_app_user}@${dev_app_server}:/home/${dev_app_user}/webapp/
+                    ssh  ${dev_app_user}@${dev_app_server} "cd /home/${dev_app_user}/webapp/; . /home/${dev_app_user}/.bashrc; . ./deploy.sh"
+                    '''
+                    echo "Deployment Success"
                 }
             }
         }
