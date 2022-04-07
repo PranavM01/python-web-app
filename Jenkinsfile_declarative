@@ -1,5 +1,5 @@
-# This pipeline deploys the flask on a third app server as an 'jenkins' account.
-# So, you should set up password-less ssh for 'jenkins' account of Jenkins server to 'ubuntu' account on the app server.
+// This pipeline deploys the flask on a third app server as an 'jenkins' account.
+// So, you should set up password-less ssh for 'jenkins' account of Jenkins server to 'ubuntu' account on the app server.
 
 pipeline {
     environment {

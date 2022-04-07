@@ -17,6 +17,7 @@ virtualenv -p /usr/bin/python3.9 venv
 pip3 install -r requirements.txt
 ```
 
+
 ### Run test cases
 ```sh
 pytest --cov=tests --cov-report term -vs
