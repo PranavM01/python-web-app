@@ -3,11 +3,13 @@
 // TO help jenkins get the path right -> add PATH="$HOME/.local/bin:$PATH" at end of the file /etc/profile and restart the jenkins.
 
 pipeline {
+    agent {
+        label 'local'
+    }
     environment {
-     dev_app_server = "192.168.0.112"
-     dev_app_user = "ubuntu"
-   }
-    agent any
+        dev_app_server = "192.168.0.112"
+        dev_app_user = "ubuntu"
+    }
     options {
         timestamps()
         ansiColor('xterm')
