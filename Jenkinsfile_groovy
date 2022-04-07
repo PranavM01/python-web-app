@@ -3,8 +3,9 @@
 // TO help jenkins get the path right -> add PATH="$HOME/.local/bin:$PATH" at end of the file /etc/profile and restart the jenkins.
 
 node {
-    env.dev_app_server = '192.168.0.112'
-    env.dev_app_user = 'ubuntu'
+    def dev_app_server = '192.168.0.112'
+    env.setProperty(dev_app_user, 'ubuntu')
+    #env.dev_app_user = 'ubuntu'
         {
         git branch: 'master',
         //credentialsId: '12345-1234-4696-af25-123455',
