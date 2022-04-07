@@ -15,6 +15,7 @@ pipeline {
         stage('Building') {
            steps {
                 echo 'Starting build'
+                echo -e '\033[35mPurple!\033[0m'
                 ansiColor('css') {
                     sh '''
                         sudo apt -y install python3.9
