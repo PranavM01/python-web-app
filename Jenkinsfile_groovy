@@ -15,16 +15,18 @@ pipeline {
         stage('Building') {
            steps {
                 echo 'Starting build'
-                sh '''
-                    sudo apt -y install python3.9
-                    sudo apt -y install python3-pip
-                    pip3 install --upgrade pip
-                    pip3 install virtualenv
-                    virtualenv -p /usr/bin/python3.9 venv
-                    . venv/bin/activate
-                    pip3 install -r requirements.txt
-                '''
-                echo 'Building Success'
+                ansiColor('css') {
+                    sh '''
+                        sudo apt -y install python3.9
+                        sudo apt -y install python3-pip
+                        pip3 install --upgrade pip
+                        pip3 install virtualenv
+                        virtualenv -p /usr/bin/python3.9 venv
+                        . venv/bin/activate
+                        pip3 install -r requirements.txt
+                    '''
+                    echo 'Building Success'
+                }
             }
         }
         stage('Linting and Testing') {
