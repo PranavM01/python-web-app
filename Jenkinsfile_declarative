@@ -1,5 +1,7 @@
 // This pipeline deploys the flask on a third app server as an 'jenkins' account.
 // So, you should set up password-less ssh for 'jenkins' account of Jenkins server to 'ubuntu' account on the app server.
+// TO help jenkins get the path right -> Go to the configuration page of your slave, and add environment variable PATH, 
+// with value: $PATH:$HOME/.local/bin
 
 pipeline {
     environment {
@@ -16,6 +18,7 @@ pipeline {
                     sudo apt -y install python3-pip
                     pip3 install --upgrade pip
                     pip3 install virtualenv
+                    source /etc/profile
                     virtualenv -p /usr/bin/python3.9 venv
                     . venv/bin/activate
                     pip3 install -r requirements.txt
