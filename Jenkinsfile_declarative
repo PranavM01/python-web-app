@@ -8,9 +8,17 @@ pipeline {
      dev_app_user = "ubuntu"
    }
     agent any
+    options {
+        timestamps()
+        ansiColor('xterm')
+        timeout(time: 5, unit: 'MINUTES')
+    }
     stages {
         stage('Building') {
-           steps {
+            options {
+                timeout(time: 1, unit: "MINUTES")
+            }
+            steps {
                 echo 'Starting build'
                 sh '''
                     sudo apt -y install python3.9
