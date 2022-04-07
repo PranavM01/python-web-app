@@ -7,10 +7,11 @@ pipeline {
      dev_app_server = "192.168.0.112"
      dev_app_user = "ubuntu"
    }
-   options {
-        ansiColor('xterm')
-    }
     agent any
+    options {
+        ansiColor('xterm')
+        timeout(time: 5, unit: 'MINUTES')
+    }
     stages {
         stage('Building') {
            steps {
