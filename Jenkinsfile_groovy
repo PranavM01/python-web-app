@@ -8,26 +8,26 @@ node {
         dev_app_user = "ubuntu"
     }
     timestamps {
-        ansiColor("xterm") {
-            stage('Building') {
-                steps {
-                        echo 'Starting build'
-                        ansiColor('css') {
-                            sh '''
-                                sudo apt -y install python3.9
-                                sudo apt -y install python3-pip
-                                pip3 install --upgrade pip
-                                pip3 install virtualenv
-                                virtualenv -p /usr/bin/python3.9 venv
-                                . venv/bin/activate
-                                pip3 install -r requirements.txt
-                            '''
-                            echo 'Building Success'
+        timeout(time: 5, unit: "MINUTES") {
+            ansiColor("xterm") {
+                stage('Building') {
+                    timeout(time: 1, unit: "MINUTES") {
+                            echo 'Starting build'
+                            ansiColor('css') {
+                                sh '''
+                                    sudo apt -y install python3.9
+                                    sudo apt -y install python3-pip
+                                    pip3 install --upgrade pip
+                                    pip3 install virtualenv
+                                    virtualenv -p /usr/bin/python3.9 venv
+                                    . venv/bin/activate
+                                    pip3 install -r requirements.txt
+                                '''
+                                echo 'Building Success'
+                            }
                         }
-                    }
-            }
-            stage('Linting and Testing') {
-                steps {
+                }
+                stage('Linting and Testing') {
                     parallel(
                         a: {
                             echo 'Starting lint'
@@ -46,16 +46,12 @@ node {
                             echo "Testing Success"
                         }
                     )
-                    }
-            }
-            stage('Deploy') {
-                steps {
+                }
+                stage('Deploy') {
                     echo 'Starting deploy to the app server'
                     sh '''
                     . venv/bin/activate
-                    #sudo su - ${dev_app_user}
                     ssh  ${dev_app_user}@${dev_app_server} "mkdir -p /home/${dev_app_user}/webapp"
-                    #ssh ${dev_app_user}@${dev_app_server} "install -d -m 0755 -o ${dev_app_user} -g ${dev_app_user} /home/${dev_app_user}/webapp"
                     rm -rf venv
                     echo "Env is"
                     echo "${WORKSPACE}"
