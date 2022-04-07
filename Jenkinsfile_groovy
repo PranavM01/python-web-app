@@ -4,8 +4,8 @@
 
 node {
     withEnv (
-        [dev_app_server = "192.168.0.112",
-        dev_app_user = "ubuntu"]
+        ['dev_app_server=192.168.0.112',
+        'dev_app_user=ubuntu']
         )
         {
         git branch: 'master',
