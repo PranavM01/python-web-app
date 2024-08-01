@@ -1,4 +1,4 @@
-# python-web-app
+# python-WEB-app
 Python app for CI CD
 
 ## Clone the repo 
